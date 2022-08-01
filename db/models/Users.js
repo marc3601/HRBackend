@@ -5,26 +5,30 @@ const sequelize = new Sequelize("hrmanager", "node", "node", {
   dialect: "mysql",
 });
 
-exports.createUser = createUser = async (name) => {
-  const User = sequelize.define("User", {
-    firstName: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    lastName: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    job: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    city: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-  });
+//Table definition
 
+const User = sequelize.define("User", {
+  firstName: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  lastName: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  job: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  city: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+});
+
+// Queries below
+
+exports.createUser = async (name) => {
   await User.sync();
   console.log("The table for the User model was just (re)created!");
 
@@ -35,4 +39,9 @@ exports.createUser = createUser = async (name) => {
     city: "Pakosc",
   });
   console.log(name ? name : "Noname" + " ID is: ", testUser.id);
+};
+
+exports.readAllUsers = async () => {
+  const users = await User.findAll();
+  return JSON.stringify(users);
 };
